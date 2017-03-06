@@ -117,7 +117,7 @@ public class Pigeon implements Runnable {
                         position = nextPosition;
                         Tile newTile = environment.getTile(position);
                         newTile.putPigeon(this);
-                    }
+                   }
                 }
 
                 //speed = tick, e.g: if speed = 2 pigeons will make 2 moves per second.

@@ -1,7 +1,6 @@
 package ca.uqac.poo.tp2;
 
 import ca.uqac.poo.tp2.controllers.PauseResumeController;
-import ca.uqac.poo.tp2.controllers.ResetController;
 import ca.uqac.poo.tp2.controllers.TileController;
 import ca.uqac.poo.tp2.model.AfraidRun;
 import ca.uqac.poo.tp2.model.Environment;
@@ -21,7 +20,6 @@ public class PigeonMania {
     private Environment environment;
     private TileController tileController;
     private PauseResumeController pauseResumeController;
-    private ResetController resetController;
     private ArrayList<Pigeon> pigeons;
 
     /*
@@ -54,7 +52,6 @@ public class PigeonMania {
 
         tileController = new TileController(environment);
         pauseResumeController = new PauseResumeController();
-        resetController = new ResetController(environment, pauseResumeController);
     }
 
     private void initView(int nbRows, int nbCols) {
@@ -69,7 +66,6 @@ public class PigeonMania {
             }
         }
         mainFrame.getControlPanel().getPauseButton().addMouseListener(pauseResumeController);
-        mainFrame.getControlPanel().getResetButton().addMouseListener(resetController);
 
         tileController.addObserver(mainFrame.getControlPanel());
     }

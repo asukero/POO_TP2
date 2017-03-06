@@ -12,17 +12,15 @@ import java.util.Observer;
 public class ControlPanel extends JPanel implements Observer{
 
     JButton pauseButton = new JButton("Pause");
-    JButton resetButton = new JButton("Reset");
     JLabel infoTileLabel = new JLabel("Tile Info : ");
 
     public ControlPanel() {
-        setLayout(new GridLayout(3,1,0,20));
+        setLayout(new GridLayout(2,1,0,20));
         setBorder(new EmptyBorder(100,10,100,10));
         setPreferredSize(new Dimension(200,100));
 
         add(infoTileLabel);
         add(pauseButton);
-        add(resetButton);
 
     }
 
@@ -30,9 +28,6 @@ public class ControlPanel extends JPanel implements Observer{
         return pauseButton;
     }
 
-    public JButton getResetButton() {
-        return resetButton;
-    }
 
     /*
         Observes the TileController to display the elements on a tile hovered by the user's mouse.

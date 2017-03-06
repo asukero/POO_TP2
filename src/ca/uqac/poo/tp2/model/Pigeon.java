@@ -4,20 +4,22 @@ import ca.uqac.poo.tp2.utils.Position;
 
 import java.util.ArrayList;
 import java.util.Random;
-
+/*
+    Pigeon runnable class. The pigeon knows the environment and iteracts with it in his thread
+ */
 public class Pigeon implements Runnable {
     private String name;
     private Position position;
-    private Environnement environnement;
+    private Environment environment;
     private int speed;
     private static boolean PAUSED = false;
-    private static boolean CRAZY = false;
+    private static boolean AFRAID = false;
 
-    public Pigeon(String name, Position position, Environnement environnement, int speed) {
+    public Pigeon(String name, Position position, Environment environment, int speed) {
         this.name = name;
         this.position = position;
         this.speed = speed;
-        this.environnement = environnement;
+        this.environment = environment;
     }
 
     public String getName() {
@@ -27,10 +29,12 @@ public class Pigeon implements Runnable {
 
     @Override
     public void run() {
-        while (!PAUSED) {
+        while (!PAUSED) { // while simulation not paused by the user
             try {
-                if (!CRAZY) {
-                    ArrayList<Tile> tilesWithFood = environnement.getTilesWithFood();
+                if (!AFRAID) { //if not afraid go to the fresh food
+
+                    //find fresh food and move to the neighbor of the current tile to reach the tile where the food is
+                    ArrayList<Tile> tilesWithFood = environment.getTilesWithFood();
 
                     if (tilesWithFood.size() > 0) {
                         double freshnessTile = 0;
@@ -44,7 +48,8 @@ public class Pigeon implements Runnable {
                         int xDiff = freshTile.getPosition().getX() - position.getX();
                         int yDiff = freshTile.getPosition().getY() - position.getY();
 
-                        environnement.getTile(position).removePigeon(this);
+                        //moves the pigeon
+                        environment.getTile(position).removePigeon(this);
 
                         if (xDiff != 0 || yDiff != 0) {
                             if (Math.abs(xDiff) > Math.abs(yDiff)) {
@@ -70,14 +75,16 @@ public class Pigeon implements Runnable {
                             }
                         }
 
-                        Tile newTile = environnement.getTile(position);
+                        Tile newTile = environment.getTile(position);
                         newTile.putPigeon(this);
 
+                        //if the new tile where the pigeon has the fresh food, he eats it.
                         if (newTile.getPosition() == freshTile.getPosition()) {
                             newTile.removeFood(this);
                         }
                     }
-                } else {
+                } else { //if afraid the pigeon will move randomly
+
                     Random rn = new Random();
                     int direction = rn.nextInt(4);
 
@@ -89,7 +96,7 @@ public class Pigeon implements Runnable {
                             }
                             break;
                         case 1: //MOVE RIGHT
-                            if (position.getX() < environnement.getNbRows() - 1) {
+                            if (position.getX() < environment.getNbRows() - 1) {
                                 nextPosition = new Position(position.getX() + 1, position.getY());
                             }
                             break;
@@ -99,20 +106,21 @@ public class Pigeon implements Runnable {
                             }
                             break;
                         case 3: //MOVE DOWN
-                            if (position.getY() < environnement.getNbCols() - 1) {
+                            if (position.getY() < environment.getNbCols() - 1) {
                                 nextPosition = new Position(position.getX(), position.getY() + 1);
                             }
                             break;
                     }
 
                     if(nextPosition != position){
-                        environnement.getTile(position).removePigeon(this);
+                        environment.getTile(position).removePigeon(this);
                         position = nextPosition;
-                        Tile newTile = environnement.getTile(position);
+                        Tile newTile = environment.getTile(position);
                         newTile.putPigeon(this);
                     }
                 }
 
+                //speed = tick, e.g: if speed = 2 pigeons will make 2 moves per second.
                 Thread.sleep(1000 / speed);
 
             } catch (Exception ex) {
@@ -126,11 +134,11 @@ public class Pigeon implements Runnable {
         Pigeon.PAUSED = PAUSED;
     }
 
-    public static void setCrazy(boolean CRAZY) {
-        Pigeon.CRAZY = CRAZY;
+    public static void setAfraid(boolean AFRAID) {
+        Pigeon.AFRAID = AFRAID;
     }
 
-    public static boolean isCrazy() {
-        return CRAZY;
+    public static boolean isAfraid() {
+        return AFRAID;
     }
 }

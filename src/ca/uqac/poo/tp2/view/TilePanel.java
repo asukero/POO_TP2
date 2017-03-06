@@ -25,6 +25,7 @@ public class TilePanel extends JPanel implements Observer {
         return position;
     }
 
+    // Observes Tile model to display the content of the tile.
     @Override
     public void update(Observable o, Object arg) {
         if(o instanceof Tile){

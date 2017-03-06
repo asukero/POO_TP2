@@ -6,6 +6,9 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 
+/*
+    GameBoard Panel.
+ */
 public class GameBoard extends JPanel {
     private TilePanel tiles[][];
 

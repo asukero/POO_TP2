@@ -4,6 +4,9 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
+/*
+    Displays STDOUT on a TextArea
+ */
 public class LogPanel extends JPanel implements Consumer {
     private JTextArea textArea;
 

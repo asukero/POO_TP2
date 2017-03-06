@@ -9,6 +9,9 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+/*
+    Game Settings Frame, launch main program with the user's settings when the user clicks on start button.
+ */
 public class GameSettingsFrame extends JFrame implements ChangeListener {
     static final String TITLE = "Game Settings";
     private int nbRows = 9;

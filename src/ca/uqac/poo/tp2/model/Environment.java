@@ -6,11 +6,14 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Random;
 
-public class Environnement extends Observable {
+/*
+    Envrionment Model, describes the model and the interactions in it
+ */
+public class Environment extends Observable {
     private Board board;
     private int nbPigeons, speed, nbRows, nbCols;
 
-    public Environnement(int nbRows, int nbCols, int nbPigeons, int speed) {
+    public Environment(int nbRows, int nbCols, int nbPigeons, int speed) {
         this.nbPigeons = nbPigeons;
         this.speed = speed;
         this.board = new Board(nbRows, nbCols);

@@ -34,6 +34,9 @@ public class ControlPanel extends JPanel implements Observer{
         return resetButton;
     }
 
+    /*
+        Observes the TileController to display the elements on a tile hovered by the user's mouse.
+     */
     @Override
     public void update(Observable o, Object arg) {
         if(arg instanceof Tile){

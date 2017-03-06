@@ -3,6 +3,9 @@ package ca.uqac.poo.tp2.model;
 import ca.uqac.poo.tp2.utils.Position;
 
 import java.util.ArrayList;
+/*
+    Model for the board
+ */
 public class Board {
     private ArrayList<ArrayList<Tile>> grid;
     private int nbRows, nbCols;

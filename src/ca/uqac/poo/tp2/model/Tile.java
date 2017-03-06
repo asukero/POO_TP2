@@ -6,6 +6,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Observable;
 
+/*
+    Model for tile on the board, can have food and a list of pigeons on it.
+    putFood(), putPigeon(), removeFood(), removePigeon() are synchronized to avoid the Pigeons Threads to edit the Tile object
+ */
 public class Tile extends Observable {
     private Position position;
     private ArrayList<Pigeon> pigeons;
@@ -78,6 +82,7 @@ public class Tile extends Observable {
         return food != null;
     }
 
+    //reset tile when reset button is pressed
     public void resetTile() {
         food = null;
         pigeons.clear();

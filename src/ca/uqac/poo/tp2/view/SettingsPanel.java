@@ -4,6 +4,9 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
+/*
+    Setting Panel for each slider.
+ */
 public class SettingsPanel extends JPanel {
 
     private JSlider settingSlider;

@@ -3,7 +3,9 @@ package ca.uqac.poo.tp2.view;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
-
+/*
+    StreamLoggger for the LogPanel. Redirects STDOUT to LogPanel.
+ */
 public class StreamLogger extends OutputStream {
     private StringBuilder buffer;
     private String prefix;
@@ -13,7 +15,6 @@ public class StreamLogger extends OutputStream {
     public StreamLogger(String prefix, Consumer consumer, PrintStream old) {
         this.prefix = prefix;
         buffer = new StringBuilder(128);
-        //buffer.append("[").append(prefix).append("] ");
         this.old = old;
         this.consumer = consumer;
     }
@@ -26,7 +27,6 @@ public class StreamLogger extends OutputStream {
         if (value.equals("\n")) {
             consumer.appendText(buffer.toString());
             buffer.delete(0, buffer.length());
-            //buffer.append("[").append(prefix).append("] ");
         }
         old.print(c);
     }

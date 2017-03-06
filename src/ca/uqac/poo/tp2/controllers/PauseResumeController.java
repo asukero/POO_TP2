@@ -8,6 +8,11 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
+/*
+    Controller for Pause/Resume Button
+    When PAUSE static boolean of Pigeon class is set to true, every thread is stopped so when we want to resume
+    the threads we have to create new ones.
+ */
 public class PauseResumeController  extends MouseAdapter {
     private ArrayList<Pigeon> pigeons;
 

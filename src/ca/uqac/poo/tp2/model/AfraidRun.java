@@ -16,8 +16,8 @@ public class AfraidRun implements Runnable {
     @Override
     public void run() {
         while (true) {
-            float prob = random.nextInt(100)/100; // probability of being afraid (between 0.0 and 1.0)
-            float occ = random.nextInt(100)/100; // occurence
+            float prob = random.nextInt(100); // probability of being afraid (between 0.0 and 1.0)
+            float occ = random.nextInt(100); // occurence
             try {
                 if (occ <= prob) {
                     if (!Pigeon.isAfraid()) {

@@ -1,5 +1,6 @@
 package ca.uqac.poo.tp2.view;
 
+import ca.uqac.poo.tp2.model.Food;
 import ca.uqac.poo.tp2.model.Pigeon;
 import ca.uqac.poo.tp2.model.Tile;
 import ca.uqac.poo.tp2.utils.Position;
@@ -32,9 +33,10 @@ public class TilePanel extends JPanel implements Observer {
             if(tile.hasFood()){
                 label.setText(label.getText() + " F");
             }
-            if(arg instanceof Pigeon){
-                Pigeon pigeon = (Pigeon)arg;
-                label.setText(label.getText() + " " + pigeon.getName());
+            if(tile.hasPigeon()){
+                for(Pigeon pigeon : tile.getPigeons()){
+                    label.setText(label.getText() + " " + pigeon.getName());
+                }
             }
         }
 

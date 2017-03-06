@@ -1,6 +1,9 @@
 package ca.uqac.poo.tp2;
 
+import ca.uqac.poo.tp2.controllers.PauseResumeController;
+import ca.uqac.poo.tp2.controllers.ResetController;
 import ca.uqac.poo.tp2.controllers.TileController;
+import ca.uqac.poo.tp2.model.CrazyRun;
 import ca.uqac.poo.tp2.model.Environnement;
 import ca.uqac.poo.tp2.model.Pigeon;
 import ca.uqac.poo.tp2.model.Tile;
@@ -14,6 +17,9 @@ public class PigeonMania {
     private MainFrame mainFrame;
     private Environnement environnement;
     private TileController tileController;
+    private PauseResumeController pauseResumeController;
+    private ResetController resetController;
+    private ArrayList<Pigeon> pigeons;
 
     public static void main(String args[]) {
         GameSettingsFrame gameSettingsFrame = new GameSettingsFrame();
@@ -24,29 +30,22 @@ public class PigeonMania {
         game.environnement = new Environnement(nbRows, nbCols, nbPigeons, speed);
         game.initControllers();
         game.initView(nbRows, nbCols);
-        Object monitor = new Object();
-        ArrayList<Pigeon> pigeons = game.environnement.spawnPigeons(nbPigeons, monitor);
-        long cT = System.currentTimeMillis();
-
-        for (Pigeon pigeon : pigeons) {
+        game.pigeons = game.environnement.spawnPigeons();
+        game.pauseResumeController.setPigeons(game.pigeons);
+        for (Pigeon pigeon : game.pigeons) {
             Thread t = new Thread(pigeon);
             t.start();
         }
-        synchronized (monitor) {
-            while (System.currentTimeMillis() - cT < 10000) {
-                monitor.notify();
-                try {
-                    monitor.wait();
-                } catch (InterruptedException ex) {
-                    ex.printStackTrace();
-                }
-            }
-        }
+        Thread t = new Thread(new CrazyRun(speed));
+        t.start();
 
     }
 
     private void initControllers() {
+
         tileController = new TileController(environnement);
+        pauseResumeController = new PauseResumeController();
+        resetController = new ResetController(environnement, pauseResumeController);
     }
 
     private void initView(int nbRows, int nbCols) {
@@ -60,5 +59,9 @@ public class PigeonMania {
                 tileView.addMouseListener(tileController);
             }
         }
+        mainFrame.getControlPanel().getPauseButton().addMouseListener(pauseResumeController);
+        mainFrame.getControlPanel().getResetButton().addMouseListener(resetController);
+
+        tileController.addObserver(mainFrame.getControlPanel());
     }
 }

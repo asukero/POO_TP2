@@ -2,49 +2,68 @@ package ca.uqac.poo.tp2.model;
 
 import ca.uqac.poo.tp2.utils.Position;
 
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Observable;
 
 public class Tile extends Observable {
     private Position position;
-    private Pigeon pigeon;
+    private ArrayList<Pigeon> pigeons;
     private Food food;
-    private HashSet<Tile> neighbors;
 
     public Tile(Position position) {
         this.position = position;
+        this.pigeons = new ArrayList<>();
     }
 
     public Position getPosition() {
         return position;
     }
 
-    public void putFood(Food food) {
-        this.food = food;
+    public synchronized void putFood(Food food) {
+        if (this.food == null) {
+            this.food = food;
+            setChanged();
+            notifyObservers();
+            System.out.println("[*] Food added on Tile " + position.toString());
+        } else {
+            System.out.println("[!] Food already on Tile " + position.toString() + "!");
+        }
+
+    }
+
+    public synchronized void putPigeon(Pigeon pigeon) {
+        this.pigeons.add(pigeon);
         setChanged();
         notifyObservers();
     }
 
-    public void putPigeon(Pigeon pigeon) {
-        this.pigeon = pigeon;
-        setChanged();
-        notifyObservers(pigeon);
-    }
+    public synchronized void removePigeon(Pigeon pigeon) {
+        if (pigeon != null) {
+            Iterator<Pigeon> it = pigeons.iterator();
 
-    public void removePigeon(){
-        if(pigeon != null){
-            pigeon = null;
+            while (it.hasNext()) {
+                Pigeon pigeonIt = it.next();
+
+                if (pigeonIt == pigeon)
+                    it.remove();
+            }
             setChanged();
             notifyObservers();
         }
     }
 
-    public void removeFood(){
-        if(food != null){
+    public synchronized void removeFood(Pigeon pigeon) {
+        if (food != null) {
             food = null;
+            System.out.println(String.format("[*] Pigeon %s has eaten food on Tile %s", pigeon.getName(), position.toString()));
             setChanged();
             notifyObservers();
         }
+    }
+
+    public ArrayList<Pigeon> getPigeons() {
+        return pigeons;
     }
 
     public Food getFood() {
@@ -52,19 +71,19 @@ public class Tile extends Observable {
     }
 
     public boolean hasPigeon() {
-        return pigeon != null;
+        return pigeons.size() > 0;
     }
 
     public boolean hasFood() {
         return food != null;
     }
 
-    public HashSet<Tile> getNeighbors() {
-        return neighbors;
+    public void resetTile() {
+        food = null;
+        pigeons.clear();
+        setChanged();
+        notifyObservers();
     }
 
-    public void setNeighbors(HashSet<Tile> neighbors) {
-        this.neighbors = neighbors;
-    }
 
 }

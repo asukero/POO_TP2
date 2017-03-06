@@ -32,7 +32,7 @@ public class GameSettingsFrame extends JFrame implements ChangeListener {
         sPCols.getSettingSlider().addChangeListener(this);
         gameSettingPanel.add(sPCols);
 
-        SettingsPanel sPPigeons = new SettingsPanel(new FlowLayout(FlowLayout.CENTER, 20, 0), "Number of Pigeons", 0, 10, 2);
+        SettingsPanel sPPigeons = new SettingsPanel(new FlowLayout(FlowLayout.CENTER, 20, 0), "Number of Pigeons", 0, 20, 4);
         sPPigeons.getSettingSlider().addChangeListener(this);
         gameSettingPanel.add(sPPigeons);
 

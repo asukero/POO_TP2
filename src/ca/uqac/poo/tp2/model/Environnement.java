@@ -31,8 +31,8 @@ public class Environnement extends Observable {
         ArrayList<Tile> tiles = new ArrayList<>();
         for (int i = 0; i < nbRows; i++) {
             for (int j = 0; j < nbCols; j++) {
-                Tile tile = board.getTile(i,j);
-                if(tile.hasFood()){
+                Tile tile = board.getTile(i, j);
+                if (tile.hasFood()) {
                     tiles.add(tile);
                 }
             }
@@ -40,7 +40,7 @@ public class Environnement extends Observable {
         return tiles;
     }
 
-    public ArrayList<Pigeon> spawnPigeons(int nbPigeons, Object monitor) {
+    public ArrayList<Pigeon> spawnPigeons() {
         Random rn = new Random();
         ArrayList<Pigeon> pigeons = new ArrayList<>(nbPigeons);
         int pigeonsSpawned = 0;
@@ -48,13 +48,27 @@ public class Environnement extends Observable {
             int x = rn.nextInt(nbRows);
             int y = rn.nextInt(nbCols);
             Tile tile = board.getGrid().get(x).get(y);
-            if (!tile.hasPigeon()) {
-                pigeonsSpawned++;
-                Pigeon pigeon = new Pigeon(String.format("P%d", pigeonsSpawned), new Position(x, y), this, speed, monitor);
-                pigeons.add(pigeon);
-                tile.putPigeon(pigeon);
-            }
+            pigeonsSpawned++;
+            Pigeon pigeon = new Pigeon(String.format("P%d", pigeonsSpawned), new Position(x, y), this, speed);
+            pigeons.add(pigeon);
+            tile.putPigeon(pigeon);
         }
         return pigeons;
+    }
+
+    public void resetBoard(){
+        for (int i = 0; i < nbRows; i++) {
+            for (int j = 0; j < nbCols; j++) {
+                board.getTile(i, j).resetTile();
+            }
+        }
+    }
+
+    public int getNbRows() {
+        return nbRows;
+    }
+
+    public int getNbCols() {
+        return nbCols;
     }
 }
